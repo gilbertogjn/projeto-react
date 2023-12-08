@@ -15,3 +15,21 @@
     --corPrincipal: #f1c40f;
     --corSecundaria: #111;
 }
+
+.container-input-usuario {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+label {
+    margin: 12px;
+    font-weight: bold;
+}
+
+.input-usuario {
+    margin: 12px 0;
+    padding: 4px;
+    border-radius: 6px;
+    border: 1px solid #999;
+}

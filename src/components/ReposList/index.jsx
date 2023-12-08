@@ -5,23 +5,34 @@ import styles from './ReposList.module.css'
 const ReposList = ({ nomeUsuario }) => {
     const [repos, setRepos] = useState([])
     const [loading, setLoading] = useState(true)
+    const [erro404, setErro404] = useState(false)
 
     useEffect(() => {
         setLoading(true)
         fetch(`https://api.github.com/users/${nomeUsuario}/repos`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('erro 404')
+                }
+                return res.json()
+            })
             .then(resJson => {
                 setTimeout(() => {
                     setLoading(false)
                     setRepos(resJson)
-                }, 1000)
+                }, 500)
+            })
+            .catch(e => {
+                console.log(e.message)
+                setErro404(true)
             })
     }, [nomeUsuario])
 
     return (
         <div className="container">
             {loading ? (
-                <h1>Carregando...</h1>
+                erro404 ? <h2>Nome de usuário não encontrado</h2> :
+                <h2>Carregando...</h2>
             ) : (
                 <ul className={styles.list}>
                     {repos.map(({ id, name, language, html_url }) => (
